@@ -26,7 +26,7 @@ clear file data_path;
 
 Z = zFunc(X,Y);
 
-[rho_estime, N_estime, a_garder] = SP_multivue(I, X, Y, Z, K, RCamTab, tCamTab, lightSourceTab');
+[rho_estime, N_estime, a_garder] = SP_multivue_synthese(I, X, Y, Z, K, RCamTab, tCamTab, lightSourceTab');
 
 [l,c] = size(rho_estime);
 

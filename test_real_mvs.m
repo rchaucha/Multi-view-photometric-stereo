@@ -6,25 +6,21 @@ H = taille_ecran(4);
 
 data_path = 'data/Real_data/';
 
-load append(data_path, 'data_cam_real.mat') K R T pathToPictures C_complete
-I1 = imread(pathToPictures{1});
-[l, c, can] = size(I1);
-nb_img_tot = 4;
-I = zeros(l,c,nb_img_tot,'uint8');
-
+load(append(data_path, 'data_cam_real.mat'), 'K', 'R', 'T', 'C_complete')
 load(append(data_path, 'mvs/normal_verts.mat'))
 load(append(data_path, 'mvs/sommets.mat'))
 
 sommets_MVS = sommets;
 
 %Chargement des images
+nb_img_tot = 4;
 nb_img = 0;
 for file = dir(append(data_path, 'flash/*.JPG'))'
     nb_img = nb_img+1;
     if (nb_img > nb_img_tot)
         break;
     end
-    I(:,:,nb_img) = im2gray(imread(append(data_path, file.name)));
+    I(:,:,nb_img) = im2gray(imread(append(data_path, 'flash/', file.name)));
 end
 clear file data_path sommets;
 

@@ -6,31 +6,29 @@ H = taille_ecran(4);
 
 data_path = 'data/Real_data/';
 
-load append(data_path, 'data_cam_real.mat') K R T pathToPictures C_complete
-I1 = imread(pathToPictures{1});
-[l, c, can] = size(I1);
-nb_img_tot = 4;
-I = zeros(l,c,nb_img_tot,'uint8');
-
+load(append(data_path, 'data_cam_real.mat'), 'K', 'R', 'T', 'C_complete')
 load(append(data_path, 'mvs/normal_verts.mat'))
 load(append(data_path, 'mvs/sommets.mat'))
 
 sommets_MVS = sommets;
 
-load append(data_path, 'sfm/sommets.mat') sommets
+load(append(data_path, 'sfm/sommets.mat')', 'sommets')
 
 sommets_SFM = sommets;
 
 %Chargement des images
+nb_img_tot = 4;
 nb_img = 0;
 for file = dir(append(data_path, 'flash/*.JPG'))'
     nb_img = nb_img+1;
     if (nb_img > nb_img_tot)
         break;
     end
-    I(:,:,nb_img) = im2gray(imread(append(data_path, file.name)));
+    I(:,:,nb_img) = im2gray(imread(append(data_path, 'flash/', file.name)));
 end
-clear file data_path sommets;
+clear file sommets;
+
+[l,c] = size(I(:,:,1));
 
 X = sommets_SFM(:,1);
 Y = sommets_SFM(:,2);
@@ -43,7 +41,6 @@ S = normalize(S,1,'norm');
 
 [rho_estime, N_estime, a_garder] = SP_multivue(I, X, Y, Z, K, R, T, S);
 N_estime = normalize(N_estime,1,'norm');
-
 
 a_retirer1 = find(sommets_MVS(:,1) < min(X(a_garder)));
 a_retirer2 = find(sommets_MVS(:,1) > max(X(a_garder)));
@@ -62,7 +59,7 @@ sommets_MVS(a_retirer,:) = [];
 % % On sauvegarde les données pour gagner du temps dans le traitement
 % save append(data_path, 'mvs/normales_mvs_pour_sfm.mat') k N
 
-load append(data_path, 'mvs/normales_mvs_pour_sfm.mat')
+load(append(data_path, 'mvs/normales_mvs_pour_sfm.mat'))
 
 a_retirer = any(isnan(N), 1);
 
