@@ -30,9 +30,14 @@ Drawback : The PS is based on the height of each point computed using MVS, which
 Synthetic images generated using https://github.com/bbrument/lambertianRendering_v1. \
 They correspond to 9 images taken from 9 different points of view of a Gaussian surface.\
 The following screenshot shows 4 of these images onto which we colored pixels corresponding to some 3D points after the projection has been made. \
-![synthese](https://user-images.githubusercontent.com/18093026/151534821-de1d4672-97ba-4886-ab9a-3d199fee6032.jpg)
+![synthese](https://user-images.githubusercontent.com/18093026/151534821-de1d4672-97ba-4886-ab9a-3d199fee6032.jpg)\
 
-To play it yourself, launch test_synthese.m
+The advantage of this method is that we have the real poses of the cameras and we can compute the true normals to compare them without the need of the SfM and the MVS.\
+The following figure show the resulting heatmap with angular difference in degree. The mean angular difference is about 0.5 degree.
+
+![image](https://user-images.githubusercontent.com/18093026/153061779-64149e10-8849-4ef5-a57f-05af7e5c2424.png)
+
+To try it yourself, launch test_synthese.m
 
 
 ## Test on real data
